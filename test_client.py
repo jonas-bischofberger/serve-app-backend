@@ -58,8 +58,8 @@ def clear_tmp_folder():
 def test_all():
     languages = json.loads(requests.get("http://127.0.0.1:8000/languages").content)
     print(f"{languages=}")
-    # for selected_language in languages["lang_codes"]:
-    for selected_language in ["en"]:
+    for selected_language in languages["lang_codes"]:
+    # for selected_language in ["en"]:
         with zipfile.ZipFile(io.BytesIO(requests.get(f"http://127.0.0.1:8000/files/{selected_language}").content), "r") as f:
             f.extractall(path=tmp_dir)
             with open(os.path.join(tmp_dir, "structure.yaml"), "r", encoding="utf-8") as f:
