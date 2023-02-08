@@ -1,118 +1,136 @@
-# Unit records
+# This file defines the available content and how it will be structured once downloaded to the SERVE mobile app.
+# 
+# - The multimedia content is organized into various *categories* such as rules, techniques, training games, etc.
+# - Each *category* can have a number of *units* such as forearm pass, overhead pass, service (all within the category techniques), etc. Each *unit* contains a number of *files* (videos, images, texts, audios) which are displayed in the order in which are listed in this file.
+# - Each *category* can have a multiple-choice quiz with various *questions* and *answers*
+# - The names for categories and units, the files and the quizzes can be provided in different languages (en = English, de = German, bg = Bulgarian, hr = Croatian, sr = Serbian, other languages are also possible).
+
+
 categories:
   - name:
-      en: Techniques
-      de: Techniken
-      bg: Техники
-      sk: volejbalová technika ý
-      zh: 排球
+      en: Rules
+      de: Regeln
+      bg: Rules
+      hr: Rules
+      sr: Rules
+    units:
+      - name:
+          en: Introduction
+          de: Einleitung
+          bg: Introduction
+          hr: Introduction
+          sr: Introduction
+        files:
+          en:
+            - Rules/Introduction/English/Introduction_text.txt
+          de:
+            - Rules/Introduction/German/Einführung_Text.txt
+  - name:
+      en: Basic Techniques
+      de: Grundtechniken
+      bg: Basic Techniques
+      hr: Basic Techniques
+      sr: Basic Techniques
     units:
       - name:
           en: Forearm Pass
           de: Baggern
-          bg: Пас с ръка
+          bg: Forearm Pass
+          hr: Forearm Pass
+          sr: Forearm Pass
         files:
           en:
-            - techniques/Baggern_Audio.mp3
-            - techniques/Baggern_Video.mp4
-            - techniques/Baggern_Text.txt
+            - Basic Techniques/Forearm Pass/English/Baggern final englisch.mp4
+            - Basic Techniques/Forearm Pass/English/baggern.png
+            - Basic Techniques/Forearm Pass/English/forearm.txt
           de:
-            - techniques/Baggern_Audio.mp3
-            - techniques/Baggern_Video.mp4
-            - techniques/Baggern_Text.txt
-          bg:
-            - techniques/Baggern_Audio.mp3
-            - techniques/Baggern_Video.mp4
+            - Basic Techniques/Forearm Pass/German/Baggern_Video.mp4
+            - Basic Techniques/Forearm Pass/German/Baggern_Text.txt
       - name:
-          en: Set Pass
+          en: Overhead pass
           de: Pritschen
+          bg: Overhead pass
+          hr: Overhead pass
+          sr: Overhead pass
         files:
           en:
-            - techniques/Pritschen_Bild.png
-            - techniques/Pritschen_Text.txt
+            - Basic Techniques/Overhead Pass/English/Pritschen final englisch.mp4
           de:
-            - techniques/Pritschen_Bild.png
-            - techniques/Pritschen_Text.txt
-            - techniques/Pritschen_Bild.png
-            - techniques/Pritschen_Text.txt
-            - techniques/Pritschen_Bild.png
-            - techniques/Baggern_Video.mp4
-            - techniques/Pritschen_Text.txt
+            - Basic Techniques/Overhead Pass/German/Pritschen_Bild.png
+            - Basic Techniques/Overhead Pass/German/Pritschen_Text.txt
+      - name:
+          en: Service
+          de: Aufschlag
+          bg: Overhead pass
+          hr: Overhead pass
+          sr: Overhead pass
+        files:
+          de:
+            - Basic Techniques/Service/German/Service_Audio.mp3
+            - Basic Techniques/Service/German/Service_Bild.png
     questions:
       - question:
-          en: What is the other name for the forearm pass?
           de: Wie wird das untere Zuspiel auch genannt?
-          sk: Ako sa nazýva dolný prístup?
         answers:
           - answer:
-              en: Forearm Pass
               de: Baggern
-              sk: Dolný prístup
             correct: true
           - answer:
-              en: Forearm Pass2
-              de: Baggern2
-              sk: Dolný prístup2
+              de: Manchette
             correct: true
           - answer:
-              en: Overhead Pass
+              de: Pritschen
+            correct: false
+          - answer:
               de: Überkopfpass
-              sk: Prehodový prístup
+            correct: false
+      - question:
+          en: What is another name for the underarm pass?
+        answers:
+          - answer:
+              de: Forearm pass
+            correct: true
+          - answer:
+              de: Bump
+            correct: true
+          - answer:
+              de: Overarm pass
+            correct: false
+          - answer:
+              de: Overhead pass
             correct: false
       - question:
           en: 1+1=?
           de: 1+1=?
+          bg: 1+1=?
+          hr: 1+1=?
+          sr: 1+1=?
         answers:
           - answer:
               en: 1
               de: 1
+              bg: 1
+              hr: 1
+              sr: 1
             correct: false
           - answer:
               en: 2
               de: 2
+              bg: 2
+              hr: 2
+              sr: 2
             correct: true
           - answer:
               en: 3
               de: 3
+              bg: 3
+              hr: 3
+              sr: 3
             correct: false
           - answer:
               en: 4
               de: 4
+              bg: 4
+              hr: 4
+              sr: 4
             correct: false
-          - answer:
-              en: 5
-              de: 5
-            correct: false
-          - answer:
-              en: 6
-              de: 6
-            correct: false
-          - answer:
-              en: 7
-              de: 7
-            correct: false
-          - answer:
-              en: 8
-              de: 8
-            correct: false
-          - answer:
-              en: 9
-              de: 9
-            correct: false
-          - answer:
-              en: 10
-              de: 10
-            correct: false
-  - name:
-      en: Equipment
-      de: Ausrüstung
-    units:
-      - name:
-          en: Ball
-          de: Ball
-        files:
-          en:
-            - techniques/Pritschen_Bild.png
-          de:
-            - techniques/Baggern_Audio.mp3
-    questions: []

@@ -1,0 +1,118 @@
+# Unit records
+categories:
+  - name:
+      en: Techniques
+      de: Techniken
+      bg: Техники
+      sk: volejbalová technika ý
+      zh: 排球
+    units:
+      - name:
+          en: Forearm Pass
+          de: Baggern
+          bg: Пас с ръка
+        files:
+          en:
+            - techniques/Baggern_Audio.mp3
+            - techniques/Baggern_Video.mp4
+            - techniques/Baggern_Text.txt
+          de:
+            - techniques/Baggern_Audio.mp3
+            - techniques/Baggern_Video.mp4
+            - techniques/Baggern_Text.txt
+          bg:
+            - techniques/Baggern_Audio.mp3
+            - techniques/Baggern_Video.mp4
+      - name:
+          en: Set Pass
+          de: Pritschen
+        files:
+          en:
+            - techniques/Pritschen_Bild.png
+            - techniques/Pritschen_Text.txt
+          de:
+            - techniques/Pritschen_Bild.png
+            - techniques/Pritschen_Text.txt
+            - techniques/Pritschen_Bild.png
+            - techniques/Pritschen_Text.txt
+            - techniques/Pritschen_Bild.png
+            - techniques/Baggern_Video.mp4
+            - techniques/Pritschen_Text.txt
+    questions:
+      - question:
+          en: What is the other name for the forearm pass?
+          de: Wie wird das untere Zuspiel auch genannt?
+          sk: Ako sa nazýva dolný prístup?
+        answers:
+          - answer:
+              en: Forearm Pass
+              de: Baggern
+              sk: Dolný prístup
+            correct: true
+          - answer:
+              en: Forearm Pass2
+              de: Baggern2
+              sk: Dolný prístup2
+            correct: true
+          - answer:
+              en: Overhead Pass
+              de: Überkopfpass
+              sk: Prehodový prístup
+            correct: false
+      - question:
+          en: 1+1=?
+          de: 1+1=?
+        answers:
+          - answer:
+              en: 1
+              de: 1
+            correct: false
+          - answer:
+              en: 2
+              de: 2
+            correct: true
+          - answer:
+              en: 3
+              de: 3
+            correct: false
+          - answer:
+              en: 4
+              de: 4
+            correct: false
+          - answer:
+              en: 5
+              de: 5
+            correct: false
+          - answer:
+              en: 6
+              de: 6
+            correct: false
+          - answer:
+              en: 7
+              de: 7
+            correct: false
+          - answer:
+              en: 8
+              de: 8
+            correct: false
+          - answer:
+              en: 9
+              de: 9
+            correct: false
+          - answer:
+              en: 10
+              de: 10
+            correct: false
+  - name:
+      en: Equipment
+      de: Ausrüstung
+    units:
+      - name:
+          en: Ball
+          de: Ball
+        files:
+          en:
+            - techniques/Pritschen_Bild.png
+          de:
+            - techniques/Baggern_Audio.mp3
+    questions: []
