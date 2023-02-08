@@ -88,16 +88,16 @@ categories:
           en: What is another name for the underarm pass?
         answers:
           - answer:
-              de: Forearm pass
+              en: Forearm pass
             correct: true
           - answer:
-              de: Bump
+              en: Bump
             correct: true
           - answer:
-              de: Overarm pass
+              en: Overarm pass
             correct: false
           - answer:
-              de: Overhead pass
+              en: Overhead pass
             correct: false
       - question:
           en: 1+1=?

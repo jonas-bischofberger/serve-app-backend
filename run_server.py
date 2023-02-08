@@ -93,6 +93,7 @@ def get_zip(lang_code: str) -> str:
 
         # Add structure as yaml file to zip without writing the yaml file to disk first
         structure = get_language_specific_structure(lang_code)
+        print(lang_code, "\n", yaml.dump(structure, allow_unicode=True))
         f.writestr("structure.yaml", yaml.dump(structure, allow_unicode=True))
 
     return zip_filename
