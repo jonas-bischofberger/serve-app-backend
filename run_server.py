@@ -128,7 +128,7 @@ def get_zip(lang_code: str) -> str:
 
         # Add structure as JSON (not yaml) file to zip without writing it to disk
         structure = get_language_specific_structure(lang_code)
-        f.writestr("structure.json", json.dumps(structure))
+        f.writestr("structure.json", json.dumps(structure, ensure_ascii=False))
 
     return zip_filename
 
