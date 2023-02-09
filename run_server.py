@@ -1,5 +1,6 @@
 import copy
 import datetime
+import json
 import os.path
 import zipfile
 
@@ -125,10 +126,9 @@ def get_zip(lang_code: str) -> str:
         for filename in get_file_list_by_langcode()[lang_code]:
             f.write(filename, arcname=os.path.relpath(filename, start=file_root))
 
-        # Add structure as yaml file to zip without writing the yaml file to disk first
+        # Add structure as JSON (not yaml) file to zip without writing it to disk
         structure = get_language_specific_structure(lang_code)
-        print(lang_code, "\n", yaml.dump(structure, allow_unicode=True))
-        f.writestr("structure.yaml", yaml.dump(structure, allow_unicode=True))
+        f.writestr("structure.json", json.dumps(structure))
 
     return zip_filename
 
