@@ -15,6 +15,8 @@ import jose.jwt
 ANDROID_USER = "android"
 ANDROID_PASSWORD = "password"
 
+STRUCTURE_JSON_FILENAME = "structure.json"
+
 PRIVATE_KEY = "5ff8ed89479c9ca882214142f274c0bc764627cba15328f8240d122ea24b9527"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRATION_TIME_MINUTES = 30
@@ -128,7 +130,7 @@ def get_zip(lang_code: str) -> str:
 
         # Add structure as JSON (not yaml) file to zip without writing it to disk
         structure = get_language_specific_structure(lang_code)
-        f.writestr("structure.json", json.dumps(structure, ensure_ascii=False))
+        f.writestr(STRUCTURE_JSON_FILENAME, json.dumps(structure, ensure_ascii=False))
 
     return zip_filename
 
@@ -138,5 +140,4 @@ def main():
 
 
 if __name__ == '__main__':
-    get_language_specific_structure("en")
     main()
