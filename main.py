@@ -1,6 +1,6 @@
 import copy
+import hashlib
 import datetime
-import json
 import os.path
 import zipfile
 
@@ -27,7 +27,8 @@ app = fastapi.FastAPI()
 
 file_root = os.path.join(os.path.dirname(__file__), "files")
 structure_yaml_path = os.path.join(file_root, "structure.yaml")
-
+global_structure = dict
+supported_langs = []
 oauth2_scheme = fastapi.security.OAuth2PasswordBearer(tokenUrl="authenticate")
 
 
@@ -48,15 +49,14 @@ async def authenticate(form_data: fastapi.security.OAuth2PasswordRequestForm = f
 
 @app.get("/languages")
 async def get_languages(token: str = fastapi.Depends(oauth2_scheme)):
-    lang_codes = get_supported_lang_codes()
-    return {"lang_codes": lang_codes, "lang_names": [langname_by_langcode(lang_code) for lang_code in lang_codes]}
+    return supported_langs
 
 
 @app.get("/files/{lang_code}")
 async def get_files_by_langcode(lang_code: str, token: str = fastapi.Depends(oauth2_scheme)):
-    if lang_code not in get_supported_lang_codes():
+    if lang_code not in get_supported_lang_codes(global_structure):
         raise fastapi.HTTPException(status_code=404, detail=f"Language {lang_code} ({langname_by_langcode(lang_code)}) "
-                                                            f"not supported. Supported languages: {', '.join([f'{lang_code} ({langname_by_langcode(lang_code)})' for lang_code in get_supported_lang_codes()])}")
+                                                            f"not supported. Supported languages: {', '.join([f'{lang_code} ({langname_by_langcode(lang_code)})' for lang_code in get_supported_lang_codes(global_structure)])}")
     zip_filename = get_zip(lang_code)
     return fastapi.responses.FileResponse(path=zip_filename, filename=zip_filename, media_type="application/zip")
     # with open(zip_filename, "rb") as f:
@@ -71,9 +71,8 @@ def read_file_structure_yaml():
             raise exc
 
 
-def get_language_specific_structure(lang_code: str):
-    structure = read_file_structure_yaml()
-    new_structure = copy.deepcopy(structure)
+def get_language_specific_structure(lang_code: str, structure_internal: dict):
+    structure = copy.deepcopy(structure_internal)
     for category in reversed(structure["categories"]):
         if lang_code in category["name"]:
             category["name"] = category["name"][lang_code]
@@ -102,18 +101,17 @@ def get_language_specific_structure(lang_code: str):
     return structure
 
 
-def get_supported_lang_codes() -> list[str]:
-    return list(get_file_list_by_langcode().keys())
+def get_supported_lang_codes(structure_internal: dict) -> list[str]:
+    return list(get_file_list_by_langcode(structure_internal).keys())
 
 
 def langname_by_langcode(langcode: str) -> str:
     return langcodes.Language.get(langcode).display_name(language=langcode)
 
 
-def get_file_list_by_langcode() -> dict[str, list[str]]:
-    structure = read_file_structure_yaml()
+def get_file_list_by_langcode(structure_internal: dict) -> dict[str, list[str]]:
     lang2files: dict[str, list[str]] = {}
-    for category in structure["categories"]:
+    for category in structure_internal["categories"]:
         for lang in category["name"]:
             lang2files.setdefault(lang, [])
         for unit in category["units"]:
@@ -128,19 +126,36 @@ def get_file_list_by_langcode() -> dict[str, list[str]]:
 def get_zip(lang_code: str) -> str:
     zip_filename = f"files_{lang_code}.zip"
     with zipfile.ZipFile(zip_filename, "w") as f:
-        for filename in get_file_list_by_langcode()[lang_code]:
+        for filename in get_file_list_by_langcode(global_structure)[lang_code]:
             f.write(filename, arcname=os.path.relpath(filename, start=file_root))
 
-        # Add structure as JSON (not yaml) file to zip without writing it to disk
-        structure = get_language_specific_structure(lang_code)
-        f.writestr(STRUCTURE_JSON_FILENAME, json.dumps(structure, ensure_ascii=False))
+        # Add structure as yaml file to zip without writing the yaml file to disk first
+        lang_specific_structure = get_language_specific_structure(lang_code, global_structure)
+        f.writestr("structure.yaml", yaml.dump(lang_specific_structure, allow_unicode=True))
 
     return zip_filename
 
 
+def generate_supported_langcodes(structure_internal: dict) -> []:
+    supported_langcodes = get_supported_lang_codes(structure_internal)
+    result = []
+    for langcode in supported_langcodes:
+        lang_structure_md5 = hashlib.md5(
+            yaml.dump(get_language_specific_structure(langcode, structure_internal), allow_unicode=True).encode(
+                'utf-8')).hexdigest()
+        langname_by_langcode(langcode)
+        result.append({"code": langcode, "name": langname_by_langcode(langcode), "md5": lang_structure_md5})
+    return result
+
+
 def main():
-    uvicorn.run(app, port=PORT)
+    # todo default port to run outside of docker
+    #     uvicorn.run(app, port=PORT)
+    uvicorn.run(app)
 
 
 if __name__ == '__main__':
+    global_structure = read_file_structure_yaml()
+    supported_langs = generate_supported_langcodes(global_structure)
+
     main()
