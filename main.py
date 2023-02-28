@@ -149,9 +149,7 @@ def generate_supported_langcodes(structure_internal: dict) -> []:
 
 
 def main():
-    # todo default port to run outside of docker
-    #     uvicorn.run(app, port=PORT)
-    uvicorn.run(app)
+    uvicorn.run(app, port=PORT)
 
 
 if __name__ == '__main__':
