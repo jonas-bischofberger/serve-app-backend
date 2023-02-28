@@ -4,7 +4,7 @@ import zipfile
 import fastapi.testclient
 import pytest
 
-from main import app, ANDROID_USER, ANDROID_PASSWORD, STRUCTURE_JSON_FILENAME
+from files import app, ANDROID_USER, ANDROID_PASSWORD, STRUCTURE_JSON_FILENAME
 
 test_client = fastapi.testclient.TestClient(app)
 
