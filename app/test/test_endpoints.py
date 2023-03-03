@@ -54,14 +54,14 @@ def test_get_languages() -> list[dict[str, str, str]]:
         assert len(response_data) > 0
         return response_data
 
-# todo repair test
+
 def test_files() -> None:
     with TestClient(app) as client:
         for lang_code in test_get_languages():
             response = client.get(f"/files/{lang_code['code']}", headers={"Authorization": f"Bearer {get_token()}"})
             assert response.status_code == 200
             assert response.headers["content-type"] == "application/zip"
-            assert response.headers["content-disposition"] == f"attachment; filename=\"files_{lang_code}.zip\""
+            assert response.headers["content-disposition"] == f"attachment; filename=\"files_{lang_code['code']}.zip\""
             assert response.headers["content-length"] == str(len(response.content))
 
             with zipfile.ZipFile(io.BytesIO(response.content), "r") as f:
