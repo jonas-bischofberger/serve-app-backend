@@ -1,0 +1,11 @@
+services:
+  serve_api:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    container_name: serve_api
+    environment:
+      PORT: 443
+    ports:
+      - '443:443'
+    restart: "no"
