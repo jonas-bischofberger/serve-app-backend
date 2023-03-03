@@ -3,6 +3,7 @@ import hashlib
 import datetime
 import os.path
 import zipfile
+import json
 
 import fastapi
 import langcodes
@@ -16,6 +17,7 @@ ANDROID_USER = "android"
 ANDROID_PASSWORD = "password"
 
 STRUCTURE_JSON_FILENAME = "structure.json"
+STRUCTURE_YAML_FILENAME = "structure.yaml"
 
 PRIVATE_KEY = "5ff8ed89479c9ca882214142f274c0bc764627cba15328f8240d122ea24b9527"
 ALGORITHM = "HS256"
@@ -25,8 +27,8 @@ PORT = 443
 
 app = fastapi.FastAPI()
 
-file_root = os.path.join(os.path.dirname(__file__), "")
-structure_yaml_path = os.path.join(file_root, "../files/structure.yaml")
+file_root = os.path.join(os.path.dirname(__file__), "../files")
+structure_path = os.path.join(file_root, "../files/" + STRUCTURE_YAML_FILENAME)
 oauth2_scheme = fastapi.security.OAuth2PasswordBearer(tokenUrl="authenticate")
 
 
@@ -62,7 +64,7 @@ async def get_files_by_langcode(lang_code: str, token: str = fastapi.Depends(oau
 
 
 def read_file_structure_yaml():
-    with open(structure_yaml_path, "r", encoding="utf-8") as f:
+    with open(structure_path, "r", encoding="utf-8") as f:
         try:
             return yaml.safe_load(f)
         except yaml.YAMLError as exc:
@@ -129,8 +131,7 @@ def get_zip(lang_code: str) -> str:
 
         # Add structure as yaml file to zip without writing the yaml file to disk first
         lang_specific_structure = get_language_specific_structure(lang_code, app.state.global_structure)
-        f.writestr("structure.yaml", yaml.dump(lang_specific_structure, allow_unicode=True))
-
+        f.writestr(STRUCTURE_JSON_FILENAME, json.dumps(lang_specific_structure, ensure_ascii=False))
     return zip_filename
 
 
@@ -138,6 +139,7 @@ def get_zip(lang_code: str) -> str:
 async def init():
     app.state.global_structure = read_file_structure_yaml()
     app.state.supported_langs = generate_supported_langcodes(app.state.global_structure)
+
 
 def generate_supported_langcodes(structure_internal: dict) -> []:
     supported_langcodes = get_supported_lang_codes(structure_internal)
